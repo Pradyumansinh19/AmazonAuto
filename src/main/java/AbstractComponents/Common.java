@@ -2,46 +2,49 @@ package AbstractComponents;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.Duration;
+import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class Common {
 
 	WebDriver driver;
 
-	public Common() {
+	// implementation of reusable workbook method
+	public void exportDataToWorkbook(List<WebElement> items, String fileName) {
 
-	}
-
-	public void impWait(int seconds) {
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
-	}
-
-	public Workbook createWorkBook() {
+		// Create a new workbook and sheet
 		Workbook workbook = new XSSFWorkbook();
-//		Sheet sheet = workbook.createSheet();
-		return workbook;
+		Sheet sheet = workbook.createSheet();
 
-	}
+		// Write data to sheet
+		int rowNum = 0;
+		for (WebElement item : items) {
+			Row row = sheet.createRow(rowNum++);
+			Cell cell = row.createCell(0);
+			cell.setCellValue(item.getText());
+		}
 
-	public void exportWorkBook(Workbook workbook, String filename) {
-		try (FileOutputStream fileOut = new FileOutputStream(filename)) {
+		// Write the workbook to a file
+		try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
 			workbook.write(fileOut);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-	}
-
-	public void closeWorkBook(Workbook workbook) {
+		// Close the workbook
 		try {
 			workbook.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }

@@ -1,13 +1,9 @@
-package AmazonAuto.AmanzonAuto;
+package AmazonAuto;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,25 +21,15 @@ public class DealPageObject extends Common {
 	}
 
 ///////////////////////////////////////////////////////////////////----Locators-----//////////////////////////////////////////////	
-	// Deals items description
+	// Getting all items on deals
 	@FindBy(css = "span.a-truncate-cut")
 	private List<WebElement> dealItems;
 
 ///////////////////////////////////////////////////////////////////----Action-Methods-----////////////////////////////////////////
-	public void getItemsOnDeal() throws FileNotFoundException, IOException {
+	// Implementation to get all items on today's deal
+	public void getItemsOnDeal(String fileName) throws FileNotFoundException, IOException {
 
-		Workbook workbook = createWorkBook();
-		Sheet sheet = workbook.createSheet();
-		int rowNum = 0;
-
-		for (WebElement item : dealItems) {
-			Row row = sheet.createRow(rowNum++);
-			Cell cell = row.createCell(0);
-			cell.setCellValue(item.getText());
-		}
-
-		exportWorkBook(workbook, "data.xlsx");
-		closeWorkBook(workbook);
+		exportDataToWorkbook(dealItems, fileName);
 
 	}
 

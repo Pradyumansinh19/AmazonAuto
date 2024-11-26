@@ -3,12 +3,13 @@ package TestComponents;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import AmazonAuto.AmanzonAuto.HomePageObject;
+import AmazonAuto.HomePageObject;
 
 public class Base {
 
 	WebDriver driver = new ChromeDriver();
 	
+	// Implementation of navigation to amazon home page
 	public HomePageObject homePage()
 	{
 		HomePageObject home = new HomePageObject(driver);
@@ -16,6 +17,7 @@ public class Base {
 		return home;
 		
 	}
+	
 	
 	public void quitDriver()
 	{
